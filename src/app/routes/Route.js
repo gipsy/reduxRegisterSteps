@@ -14,8 +14,6 @@ import {
   // app:
   App,
   // non protected views
-  ConnectedHome,
-  ConnectedAbout,
   ConnectedLogin,
   ConnectedRegister,
   // protected views
@@ -27,7 +25,7 @@ import {
 import configureStore, {
   client
 }                               from '../redux/store/configureStore';
-import DevTools                 from '../redux/devTools/DevTools.jsx';
+// import DevTools                 from '../redux/devTools/DevTools.jsx';
 import { auth }                 from '../services/auth';
 
 
@@ -41,11 +39,9 @@ export const Routes = () => {
         <Router history={syncedHistory}>
           <Route path="/" component={App} >
             {/* non protected views */}
-            <IndexRoute component={ConnectedHome} />
-            <Route path="/about" component={ConnectedAbout} />
             <Route path="/login" component={ConnectedLogin} />
             <Route path="/register" component={ConnectedRegister} />
-            {/* logout: just redirects to home (App will take care of removing the token) */}
+            {/* logout: just redirects to index (App will take care of removing the token) */}
             <Route path="/logout" onEnter={logOutUser} />
             {/* protected views */}
             <Route path="/protected" component={ConnectedProtected}  onEnter={requireAuth} />
@@ -53,7 +49,7 @@ export const Routes = () => {
             <Route path="*" component={PageNotFound} />
           </Route>
         </Router>
-        { process.env.NODE_ENV !== 'production' ? <DevTools /> : null }
+        {/* { process.env.NODE_ENV !== 'production' ? <DevTools /> : null } */}
       </div>
     </ApolloProvider>
   );

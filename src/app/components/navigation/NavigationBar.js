@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React              from 'react';
+import PropTypes          from 'prop-types';
 import Humburger          from './humburger/Humburger';
 import LeftNav            from './leftNav/LeftNav';
 import RightNav           from './rightNav/RightNav';

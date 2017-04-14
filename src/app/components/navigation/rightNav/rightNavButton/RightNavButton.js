@@ -1,7 +1,7 @@
 import React, {
   Component,
-  PropTypes
 }                     from 'react';
+import PropTypes      from 'prop-types';
 import { Link }       from 'react-router';
 import shallowCompare from 'react-addons-shallow-compare';
 

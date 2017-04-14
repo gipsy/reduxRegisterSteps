@@ -1,7 +1,8 @@
+import { reduxForm } from 'redux-form';
 import React, {
   Component,
-  PropTypes
 }                     from 'react';
+import PropTypes      from 'prop-types';
 import cx             from 'classnames';
 import shallowCompare from 'react-addons-shallow-compare';
 import { Link }       from 'react-router';
@@ -10,11 +11,29 @@ import {
   WarningAlert
 }                     from '../../components';
 
+import RegisterFirstPage from './RegisterFirstPage';
+import RegisterSecondPage from './RegisterSecondPage';
+import RegisterThirdPage from './RegisterThirdPage';
+
 class Register extends Component {
+  constructor(props) {
+    super(props)
+    this.nextPage = this.nextPage.bind(this)
+    this.previousPage = this.previousPage.bind(this)
+  }
+
+  nextPage() {
+    this.setState({ page: this.state.page + 1 })
+  }
+
+  previousPage() {
+    this.setState({ page: this.state.page - 1 })
+  }
 
   state = {
     animated: true,
     viewEntersAnim: true,
+    page: 1,
 
     email: '',
     password: '',
@@ -42,12 +61,14 @@ class Register extends Component {
       viewEntersAnim,
       email,
       password,
-      warning
+      warning,
+      page,
     } = this.state;
 
     const {
       mutationLoading,
-      error
+      error,
+      onSubmit,
     } = this.props;
 
     return(
@@ -57,95 +78,20 @@ class Register extends Component {
           'view-enter': viewEntersAnim
         })}>
         <div className="row">
-          <div className="col-md-4 col-md-offset-4">
-            <form
-              className="form-horizontal"
-              noValidate>
-              <fieldset>
-                <legend>
-                  Register
-                </legend>
-                <div className="form-group">
-                  <label
-                    htmlFor="inputEmail"
-                    className="col-lg-2 control-label">
-                    Email
-                  </label>
-                  <div className="col-lg-10">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="inputEmail"
-                      placeholder="Email"
-                      value={email}
-                      onChange={this.handlesOnEmailChange}
-                    />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label
-                    htmlFor="inputPassword"
-                    className="col-lg-2 control-label">
-                    Password
-                  </label>
-                  <div className="col-lg-10">
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="inputPassword"
-                      placeholder="Password"
-                      value={password}
-                      onChange={this.handlesOnPasswordChange}
-                    />
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <div className="col-lg-10 col-lg-offset-2">
-                    <Link
-                      className="btn btn-default"
-                      to={'/'}>
-                      Cancel
-                    </Link>
-                    <button
-                      className="btn btn-primary register-button"
-                      disabled={mutationLoading}
-                      onClick={this.handlesOnRegister}>
-                      Register
-                    </button>
-                  </div>
-                </div>
-              </fieldset>
-            </form>
-            <div style={{height: '150px'}}>
-              <WarningAlert
-                showAlert={!!warning}
-                warningTitle={'Warning'}
-                warningMessage={warning ? warning.message : ''}
-                onClose={this.closeWarning}
-              />
-              <ErrorAlert
-                showAlert={!!error}
-                errorTitle={'Error'}
-                errorMessage={error ? error.message : ''}
-                onClose={this.closeError}
-              />
+          <div className="col-lg-4 col-md-6 col-lg-offset-4 col-md-offset-3">
+            <div className="vertical-center">
+              {page === 1 && <RegisterFirstPage onSubmit={this.nextPage} />}
+              {page === 2 && <RegisterSecondPage previousPage={this.previousPage} onSubmit={this.nextPage} />}
+              {page === 3 && <RegisterThirdPage previousPage={this.previousPage} onSubmit={onSubmit} />}
             </div>
           </div>
         </div>
-
       </div>
     );
   }
 
-  handlesOnEmailChange = (event) => {
-    event.preventDefault();
-    // should add some validator before setState in real use cases
-    const email = event.target.value;
-    this.setState({ email});
-  }
-
   handlesOnPasswordChange = (event) => {
+    console.log('handleOnPasswordChange');
     event.preventDefault();
     // should add some validator before setState in real use cases
     this.setState({ password: event.target.value });
@@ -187,14 +133,6 @@ class Register extends Component {
       );
   }
 
-  isValidEmail(email = '') {
-    // basic validation, better user "validate.js" for real validation
-    if (email && email.trim().length > 0) {
-      return true;
-    }
-    return false;
-  }
-
   isValidPassword(password = '') {
     // basic validation, better user "validate.js" for real validation
     if (password && password.trim().length > 0) {
@@ -217,6 +155,7 @@ class Register extends Component {
 
 Register.propTypes= {
   // views props:
+  onSubmit:       PropTypes.func.isRequired,
   currentView:    PropTypes.string.isRequired,
   enterRegister:  PropTypes.func.isRequired,
   leaveRegister:  PropTypes.func.isRequired,
@@ -231,7 +170,11 @@ Register.propTypes= {
 };
 
 Register.contextTypes = {
-  router: React.PropTypes.object
+  router: PropTypes.object
 };
+
+Register = reduxForm({
+  form: 'register',
+})(Register);
 
 export default Register;

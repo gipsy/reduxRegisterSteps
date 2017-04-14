@@ -83,6 +83,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       // views actions:
+      onSubmit: viewsActions.onSubmit,
       enterRegister: viewsActions.enterRegister,
       leaveRegister: viewsActions.leaveRegister,
       // userAuth actions:

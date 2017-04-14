@@ -1,3 +1,4 @@
+import { reducer as reduxFormReducer } from 'redux-form';
 import {
   createStore,
   compose,
@@ -36,6 +37,7 @@ function getDebugSessionKey() {
 // combine reducers -> createStore reducer
 const reducer = combineReducers({
   ...reducers,
+  form: reduxFormReducer,
   apollo: apolloClient.reducer(), // apollo reducer
   routing: routerReducer
 });

@@ -28,7 +28,7 @@ const config = {
   module: {
     loaders: [{
       test: /\.jsx?$/,
-      loaders: ['react-hot', 'babel'],
+      loaders: ['babel-loader'],
       include: path.join(__dirname, 'src/app')
     },  {
       test: /\.scss$/,

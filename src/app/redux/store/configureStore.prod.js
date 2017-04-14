@@ -1,3 +1,4 @@
+import { reducer as reduxFormReducer } from 'redux-form';
 import {
   createStore,
   applyMiddleware,
@@ -27,6 +28,7 @@ const enhancer = compose(
 // combine reducers
 const reducer = combineReducers({
   ...reducers,
+  form: reduxFormReducer,
   apollo: apolloClient.reducer(), // apollo reducer
   routing: routerReducer
 });
