@@ -16,22 +16,34 @@ const validate = values => {
     errors.password_confirm = 'should match'
   }
 
-  // #TODO find out why values is empty
-  // if (!values.day) {
-  //   errors.day = 'Required'
-  // }
-  // if (!values.month) {
-  //   errors.month = 'Required'
-  // }
-  // if (!values.year) {
-  //   errors.year = 'Required'
-  // }
+  console.log(errors)
 
-  // #TODO ensure users age is more than 18 years
-  // if (moment().diff(`${values.year}-${values.month}-${values.day}`, 'years')) {
-  //   console.log(moment().diff(`${values.year}-${values.month}-${values.day}`, 'years'))
-  //   errors.birthday = 'You must be more than 18 age old'
-  // }
+  if (values.birthday) {
+    if (!values.birthday.day) {
+      errors.day = 'Required'
+      // errors._error = 'Required'
+      console.log('Day Required')
+    }
+    if (!values.birthday.month) {
+      errors.month = 'Required'
+      // errors._error = 'Required'
+      console.log('Month Required')
+    }
+    if (!values.birthday.year) {
+      errors.year = 'Required'
+      // errors._error = 'Required'
+      console.log('Year Required')
+    }
+  }
+
+  if (values.birthday) {
+    if ((moment().diff(`${values.year}-${values.month}-${values.day}`, 'years')) < 18) {
+      errors.birthday = 'You must be at least 18 years old'
+      // errors._error = 'You must be at least 18 years old'
+    } else {
+      // errors._error = 'Required'
+    }
+  }
   return errors
 }
 

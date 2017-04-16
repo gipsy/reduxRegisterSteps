@@ -8,7 +8,7 @@ class RegisterThirdPage extends Component {
   }
 
   render() {
-    const { handleSubmit, previousPage } = this.props
+    const { handleSubmit, pristine, submitting } = this.props
 
     return (
       <form className="Form" role="form" onSubmit={handleSubmit}>
@@ -23,7 +23,11 @@ class RegisterThirdPage extends Component {
         <div className="Form__Content">
           <div className="Form__IconCheck fa fa-check-circle"></div>
           <div className="Form__Action--center">
-            <a className="Form__BtnGhost" href="/">Go to Dashboard</a>
+            <button
+              type="submit"
+              className="Form__BtnGhost"
+              disabled={pristine || submitting}
+            >Go to Dashboard</button>
           </div>
         </div>
       </form>
@@ -32,7 +36,7 @@ class RegisterThirdPage extends Component {
 }
 
 export default reduxForm({
-  form: 'wizard', //Form name is same
+  form: 'signup', //Form name is same
   destroyOnUnmount: false,
   forceUnregisterOnUnmount: true,  // <------ unregister fields on unmount
 })(RegisterThirdPage)

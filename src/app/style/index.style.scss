@@ -1,3 +1,10 @@
+// reset
+@import 'normalize/variables';
+@import 'normalize/vertical-rhythm';
+@import 'normalize/normalize-mixin';
+@import 'normalize/reset-form';
+
+// main
 @import "./font.style";
 @import "./icons.style";
 @import "./mixin.style";
@@ -5,3 +12,4 @@
 @import "../containers/app/app.style";
 @import "../views/login/login.style";
 @import "../views/register/register.style";
+

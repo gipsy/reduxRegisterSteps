@@ -15,13 +15,12 @@ class RegisterSecondPage extends Component {
 
   state = {
     gender: 'female',
-    where: 'internet'
+    where: 'internet',
   }
 
   onGenderUpdate(e) {
     // this.setState({ gender: e.value });
     console.log(e)
-    console.log('onGenderUpdate fired!')
     this.setState({ gender: e })
     // console.log(this.state.gender);
   }
@@ -31,6 +30,7 @@ class RegisterSecondPage extends Component {
   }
 
   render() {
+    console.log(this.state)
 
     const whereOpts = [
       { value: 'internet', label: 'internet'},
@@ -39,6 +39,9 @@ class RegisterSecondPage extends Component {
       { value: 'friends', label: 'friends'},
       { value: 'social', label: 'social'},
     ]
+
+    const renderError = ({ meta: { touched, error } }) => touched && error ?
+      <span>{error}</span> : false
 
     const { handleSubmit, previousPage } = this.props
 
@@ -53,12 +56,13 @@ class RegisterSecondPage extends Component {
           <li>3</li>
         </ul>
         <div className="Form__Content">
+          <p className="Form__Content--group-title">
+            Date of Birth
+          </p>
+          <Field name="birthday" component={renderError}/>
           <div className="Form__FieldGroup">
-            <p className="Form__Content--group-title">
-              Date of Birth
-            </p>
             <Field
-              name="day"
+              name="birthday"
               type="number"
               component={renderBirthdayField}
               label="birthday"
@@ -131,7 +135,7 @@ class RegisterSecondPage extends Component {
 }
 
 export default reduxForm({
-  form: 'wizard',                 // <------ same form name
+  form: 'signup',                 // <------ same form name
   destroyOnUnmount: false,        // <------ preserve form data
   forceUnregisterOnUnmount: true,  // <------ unregister fields on unmount
   validate

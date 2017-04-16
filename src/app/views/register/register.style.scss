@@ -19,7 +19,7 @@ body {
   &__Title {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
-    font-size: 22px;
+    font-size: 18px;
     color: #54a0eb;
     text-align: center;
     padding: 20px;
@@ -30,12 +30,9 @@ body {
     margin: 0;
     padding: 0;
     position: relative;
-    // border-top: 1px solid #c4c4c4;
-    // border-bottom: 1px solid #c4c4c4;
     counter-reset: step;
     @include transition(.4s linear);
     @include transition-property(width, background-color);
-    // @include box-shadow(inset 0 1px rgba(white, .1));
 
     &::before {
       position: absolute;
@@ -106,15 +103,43 @@ body {
     }
   }
 
-  %BirthdayFieldItem {
+  %FieldGroupItem {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
     display: inline-block;
-    width: 30%;
-    border: 1px solid #d0d0d0;
-    padding: 2px 0; 
+    width: 100%;
+    // padding: 2px 0; 
+    cursor: pointer;
+    line-height: 35px;
+    height: 35px;
+    outline: none;
 
-    .Select-control {
-      border-radius: 0;
-      border: 0;
+  }
+
+  &__FieldGroupItem {
+    @extend %FieldGroupItem;
+
+    .Form__SelectGroup & {
+      line-height: 31px;
+      text-indent: 10px;
+    }
+  }
+
+  %SelectWrapper {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #d0d0d0;
+    cursor: pointer;
+    &:after {
+      content: "\f0dc";
+      font-family: 'FontAwesome';
+      color: #000;
+      position: absolute;
+      right: 5px;
+      top: 0px;
+      z-index: 1;
+      line-height: 37px;
     }
 
     &:first-child {
@@ -126,45 +151,46 @@ body {
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
     }
-
-    .Select-clear {
-      display: none;
-    }
   }
 
-  &__BirthdayFieldItem {
-    @extend %BirthdayFieldItem;
+  &__SelectWrapper {
+    @extend %SelectWrapper;
+    width: 30%;
 
     &--error {
-      @extend %BirthdayFieldItem;
+      @extend %SelectWrapper;
       border-color: #f1004e !important;
     }
-  }
 
-  &__DefaultSelect .Select-control {
-    padding: 2px 0;
-
-    .Select-value {
-      line-height: 40px;
+    &--full-width {
+      @extend %SelectWrapper;
+      width: 90%;
+      padding-left: 10px;
     }
   }
 
-  
-  &__BirthdayFieldGroup {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    font-size: 15px;
+  %DefaultFieldGroup {
     width: 100%;
-    display: inline-block;
+    margin-bottom: 20px;
+  }
+  
+  &__FieldGroup {
+    @extend %DefaultFieldGroup;
+
+    &--centered {
+      @extend %DefaultFieldGroup;
+      text-align: center;
+    }
+  }
+
+  &__SelectGroup {
+    @extend %DefaultFieldGroup;
     text-align: center;
   }
 
   &__RadioGroup {
+  @extend %DefaultFieldGroup;
     text-align: center;
-  }
-
-  &__FieldGroup {
-    margin-top: 20px;
   }
 
   &__Content {
@@ -234,7 +260,6 @@ body {
     box-sizing: content-box;
     background: none;
     border: 0;
-    /* cursor: default; */
     font: inherit;
     line-height: normal;
     overflow: visible;
@@ -294,22 +319,29 @@ body {
     }
   }
 
-  &__RadioBtn {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    font-size: 15px;
-    text-align: center;
-    border: 1px solid #d0d0d0;
-    background-color: white;
-    padding: 10px 20px;
-    width: 30%;
+  &__RadioInput {
+    position: absolute;
+    margin: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     cursor: pointer;
 
-    input[type="radio"] {
-      position: absolute;
-      clip: rect(0, 0, 0, 0);
-      pointer-events: none;
+    &:checked + label {
+      background-color: #3b85dd;
+      color: white;
+      font-weight: 400;
     }
+  }
+
+  &__RadioWrapper {
+    position: relative;
+    width: 30%;
+    display: inline-block;
+    border: 1px solid #d0d0d0;
+    overflow: hidden;
 
     &:first-child {
       border-top-left-radius: 4px;
@@ -320,13 +352,17 @@ body {
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
     }
+  }
 
-    &.is-active,
-    &:hover {
-      background-color: #3b85dd;
-      color: white;
-      font-weight: 400;
-    }
+  &__RadioBtn {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    text-align: center;
+    background-color: white;
+    padding: 10px 20px;
+    width: 100%;
+    cursor: pointer;
   }
 
   &__IconCheck {

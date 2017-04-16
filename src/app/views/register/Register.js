@@ -1,4 +1,4 @@
-import { reduxForm } from 'redux-form';
+import { reduxForm, formValueSelector } from 'redux-form';
 import React, {
   Component,
 }                     from 'react';
@@ -12,7 +12,7 @@ import {
 }                     from '../../components';
 
 import RegisterFirstPage from './RegisterFirstPage';
-import RegisterSecondPage from './RegisterSecondPage';
+import FormSecondPage from './FormSecondPage';
 import RegisterThirdPage from './RegisterThirdPage';
 
 class Register extends Component {
@@ -37,8 +37,17 @@ class Register extends Component {
 
     email: '',
     password: '',
+    gender: '',
 
-    warning: null
+    warning: null,
+    month: '',
+    year: '',
+
+    birthday: {
+      day: '',
+      month: '',
+      year: ''
+    }
   };
 
   componentDidMount() {
@@ -56,6 +65,9 @@ class Register extends Component {
   }
 
   render() {
+    const selector = formValueSelector('signup')
+    const month = selector(this.state, 'birthday.month')
+    console.log(month)
     const {
       animated,
       viewEntersAnim,
@@ -71,6 +83,15 @@ class Register extends Component {
       onSubmit,
     } = this.props;
 
+    const showResults = values =>
+      new Promise(resolve => {
+        setTimeout(() => {  // simulate server latency
+          window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`)
+          resolve()
+        }, 500)
+      })
+
+
     return(
       <div className={
         cx({
@@ -81,8 +102,8 @@ class Register extends Component {
           <div className="col-lg-4 col-md-6 col-lg-offset-4 col-md-offset-3">
             <div className="vertical-center">
               {page === 1 && <RegisterFirstPage onSubmit={this.nextPage} />}
-              {page === 2 && <RegisterSecondPage previousPage={this.previousPage} onSubmit={this.nextPage} />}
-              {page === 3 && <RegisterThirdPage previousPage={this.previousPage} onSubmit={onSubmit} />}
+              {page === 2 && <FormSecondPage monthValue={month} previousPage={this.previousPage} onSubmit={this.nextPage} />}
+              {page === 3 && <RegisterThirdPage previousPage={this.previousPage} onSubmit={showResults} />}
             </div>
           </div>
         </div>
@@ -163,6 +184,7 @@ Register.propTypes= {
   userIsAuthenticated: PropTypes.bool.isRequired,
   mutationLoading: PropTypes.bool.isRequired,
   error: PropTypes.object,
+  //error: PropTypes.string,
 
   // apollo actions
   registerUser: PropTypes.func.isRequired,
@@ -174,7 +196,7 @@ Register.contextTypes = {
 };
 
 Register = reduxForm({
-  form: 'register',
+  form: 'signup',
 })(Register);
 
 export default Register;
