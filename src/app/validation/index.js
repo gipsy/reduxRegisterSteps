@@ -38,10 +38,10 @@ const validate = values => {
 
   if (values.birthday) {
     if ((moment().diff(`${values.year}-${values.month}-${values.day}`, 'years')) < 18) {
-      errors.birthday = 'You must be at least 18 years old'
-      // errors._error = 'You must be at least 18 years old'
+      // errors.birthday = 'You must be at least 18 years old'
+      errors._error = 'You must be at least 18 years old'
     } else {
-      // errors._error = 'Required'
+      errors._error = 'Required'
     }
   }
   return errors
