@@ -16,32 +16,15 @@ const validate = values => {
     errors.password_confirm = 'should match'
   }
 
-  console.log(errors)
-
-  if (values.birthday) {
-    if (!values.birthday.day) {
-      errors.day = 'Required'
-      // errors._error = 'Required'
-      console.log('Day Required')
-    }
-    if (!values.birthday.month) {
-      errors.month = 'Required'
-      // errors._error = 'Required'
-      console.log('Month Required')
-    }
-    if (!values.birthday.year) {
-      errors.year = 'Required'
-      // errors._error = 'Required'
-      console.log('Year Required')
-    }
+  if (!values.gender) {
+    errors.gender = 'Required'
   }
 
   if (values.birthday) {
-    if ((moment().diff(`${values.year}-${values.month}-${values.day}`, 'years')) < 18) {
-      // errors.birthday = 'You must be at least 18 years old'
+    if ((moment().diff(`${values.birthday.year}-${values.birthday.month}-${values.birthday.day}`, 'years')) < 18) {
       errors._error = 'You must be at least 18 years old'
-    } else {
-      errors._error = 'Required'
+    } else if (!values.birthday.day || !values.birthday.month || !values.birthday.year) {
+      errors._error = 'Birthday Required'
     }
   }
   return errors

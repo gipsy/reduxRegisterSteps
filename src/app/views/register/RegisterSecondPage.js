@@ -16,8 +16,7 @@ const whereOpts = [
 ]
 
 let RegisterSecondPage = (props) => {
-  const { handleSubmit, pristine, previousPage, submitting, touched, error, monthValue, yearValue } = props
-  console.log(props)
+  const { handleSubmit, pristine, previousPage, submitting, touched, monthValue, yearValue, genderValue } = props
   return (
     <form className="Form" onSubmit={handleSubmit}>
       <div className="Form__Title">
@@ -39,14 +38,13 @@ let RegisterSecondPage = (props) => {
             monthValue={monthValue}
             yearValue={yearValue}
           />
-          {touched && error && <span>{error}</span>}
         </FormSection>
-        <p className="Form__Content--group-title">
+        <p className="Form__ContentTitle">
           Gender
         </p>
         <div className="Form__RadioGroup">
           <div className="Form__RadioWrapper">
-            <Field className="Form__RadioInput" name="gender" component="input" type="radio" value="male" />
+            <Field className={`Form__RadioInput`} name="gender" component="input" type="radio" value="male" />
             <label className="Form__RadioBtn"> Male</label>
           </div>
           <div className="Form__RadioWrapper">
@@ -58,7 +56,7 @@ let RegisterSecondPage = (props) => {
             <label className="Form__RadioBtn"> Unspecified</label>
           </div>
         </div>
-        <p className="Form__Content--group-title">
+        <p className="Form__ContentTitle">
           Where did you hear about us?
         </p>
         <div className="Form__FieldGroup--centered">

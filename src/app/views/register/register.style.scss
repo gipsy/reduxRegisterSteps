@@ -159,6 +159,8 @@ body {
 
     &--error {
       @extend %SelectWrapper;
+      width: 30%;
+      text-transform: lowercase;
       border-color: #f1004e !important;
     }
 
@@ -195,11 +197,15 @@ body {
 
   &__Content {
     padding: 30px;
-    &--group-title {
+    &Title {
       font-family: 'Roboto', sans-serif;
       font-size: 14px;
       text-transform: uppercase;
       text-align: center;
+      &--error,
+      .error {
+        color: #f1004e !important;
+      }
     }
   }
 

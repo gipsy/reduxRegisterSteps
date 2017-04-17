@@ -33,29 +33,25 @@ const fillYearsArray = (value) => {
 
 let renderBirthdaySelector = (fields) => (
   <div>
-    <p className="Form__Content--group-title">
+    <p className="Form__ContentTitle">
       Date of Birth
-      {/* {JSON.stringify(fields)} */}
+      &nbsp;
+      {fields.year.meta.touched && fields.month.meta.touched && fields.day.meta.touched && <span className="error">{fields.error}</span>}
     </p>
     <div className="Form__SelectGroup">
       <div className="Form__SelectWrapper">
         <select
           {...fields.day.input}
-          className={
-            cx(`Form__FieldGroupItem${fields.day.meta.touched && fields.day.meta.error ? "--error" : ""}`)
-          }
+          className="Form__FieldGroupItem"
         >
           <option value="">Select day...</option>
           {fillDaysArray(fields.yearValue || moment().year(), fields.monthValue || moment().month()).map((day, i) => <option value={day.value} key={i}>{day.label}</option>)}
         </select>
-        {fields._error}
       </div>
       <div className="Form__SelectWrapper">
         <select
           {...fields.month.input}
-          className={
-            cx(`Form__FieldGroupItem${fields.month.meta.touched && fields.month.meta.error ? "--error" : ""}`)
-          }
+          className="Form__FieldGroupItem"
         >
           <option value="">Select month...</option>
           {fillMonthsArray().map((month, i) => <option value={month.value} key={i}>{month.label}</option>)}
@@ -64,9 +60,7 @@ let renderBirthdaySelector = (fields) => (
       <div className="Form__SelectWrapper">
         <select
           {...fields.year.input}
-          className={
-            cx(`Form__FieldGroupItem${fields.year.meta.touched && fields.year.meta.error ? "--error" : ""}`)
-          }
+          className="Form__FieldGroupItem"
         >
           <option value="">Select year...</option>
           {fillYearsArray(1900).map((year, i) => <option value={year.value} key={i}>{year.label}</option>)}
@@ -76,11 +70,11 @@ let renderBirthdaySelector = (fields) => (
   </div>
 )
 
-// renderBirthdaySelector = reduxForm({
-//   form: 'signup',
-//   destroyOnUnmount: false,
-//   forceUnregisterOnUnmount: true,
-//   validate
-// })(renderBirthdaySelector)
+renderBirthdaySelector = reduxForm({
+  form: 'signup',
+  destroyOnUnmount: false,
+  forceUnregisterOnUnmount: true,
+  validate
+})(renderBirthdaySelector)
 
 export default renderBirthdaySelector;

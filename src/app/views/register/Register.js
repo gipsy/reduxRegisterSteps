@@ -121,7 +121,10 @@ class Register extends Component {
   handlesOnRegister = (event) => {
     event.preventDefault();
     const { registerUser } = this.props;
-    const { email, password } = this.state;
+    const {
+      email,
+      password,
+    } = this.state;
     const { router } = this.context;
 
     const variables = {
@@ -183,8 +186,8 @@ Register.propTypes= {
   // auth props:
   userIsAuthenticated: PropTypes.bool.isRequired,
   mutationLoading: PropTypes.bool.isRequired,
-  error: PropTypes.object,
-  //error: PropTypes.string,
+  // error: PropTypes.object,
+  error: PropTypes.string,
 
   // apollo actions
   registerUser: PropTypes.func.isRequired,
