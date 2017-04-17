@@ -76,11 +76,11 @@ let renderBirthdaySelector = (fields) => (
   </div>
 )
 
-renderBirthdaySelector = reduxForm({
-  form: 'signup',
-  destroyOnUnmount: false,
-  forceUnregisterOnUnmount: true,
-  validate
-})(renderBirthdaySelector)
+// renderBirthdaySelector = reduxForm({
+//   form: 'signup',
+//   destroyOnUnmount: false,
+//   forceUnregisterOnUnmount: true,
+//   validate
+// })(renderBirthdaySelector)
 
 export default renderBirthdaySelector;

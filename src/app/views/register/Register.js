@@ -12,7 +12,7 @@ import {
 }                     from '../../components';
 
 import RegisterFirstPage from './RegisterFirstPage';
-import FormSecondPage from './FormSecondPage';
+import RegisterSecondPage from './RegisterSecondPage';
 import RegisterThirdPage from './RegisterThirdPage';
 
 class Register extends Component {
@@ -102,7 +102,7 @@ class Register extends Component {
           <div className="col-lg-4 col-md-6 col-lg-offset-4 col-md-offset-3">
             <div className="vertical-center">
               {page === 1 && <RegisterFirstPage onSubmit={this.nextPage} />}
-              {page === 2 && <FormSecondPage monthValue={month} previousPage={this.previousPage} onSubmit={this.nextPage} />}
+              {page === 2 && <RegisterSecondPage monthValue={month} previousPage={this.previousPage} onSubmit={this.nextPage} />}
               {page === 3 && <RegisterThirdPage previousPage={this.previousPage} onSubmit={showResults} />}
             </div>
           </div>

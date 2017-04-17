@@ -1,142 +1,117 @@
-import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
-import Select from 'react-select';
-import renderField from './renderField';
-import renderBirthdayField from './renderBirthdayField';
+import React from 'react';
+import { connect } from 'react-redux';
+import { FormSection, Field, Fields, reduxForm, formValueSelector } from 'redux-form';
+import moment from 'moment';
+import cx from 'classnames';
 import { RadioGroup, Radio } from 'react-radio-group';
 import validate from '../../validation';
+import renderBirthdaySelector from './renderBirthdaySelector';
 
-class RegisterSecondPage extends Component {
-  constructor(props) {
-    super(props)
-    this.onGenderUpdate = this.onGenderUpdate.bind(this)
-    this.onWhereUpdate = this.onWhereUpdate.bind(this)
-  }
+const whereOpts = [
+  { value: 'internet', label: 'internet'},
+  { value: 'radio', label: 'radio'},
+  { value: 'tv', label: 'tv'},
+  { value: 'friends', label: 'friends'},
+  { value: 'social', label: 'social'},
+]
 
-  state = {
-    gender: 'female',
-    where: 'internet',
-  }
-
-  onGenderUpdate(e) {
-    // this.setState({ gender: e.value });
-    console.log(e)
-    this.setState({ gender: e })
-    // console.log(this.state.gender);
-  }
-
-  onWhereUpdate(e) {
-    this.setState({ where: e.value });
-  }
-
-  render() {
-    console.log(this.state)
-
-    const whereOpts = [
-      { value: 'internet', label: 'internet'},
-      { value: 'radio', label: 'radio'},
-      { value: 'tv', label: 'tv'},
-      { value: 'friends', label: 'friends'},
-      { value: 'social', label: 'social'},
-    ]
-
-    const renderError = ({ meta: { touched, error } }) => touched && error ?
-      <span>{error}</span> : false
-
-    const { handleSubmit, previousPage } = this.props
-
-    return (
-      <form className="Form" role="form" onSubmit={handleSubmit}>
-        <div className="Form__Title">
-          Signup
+let RegisterSecondPage = (props) => {
+  const { handleSubmit, pristine, previousPage, submitting, touched, error, monthValue, yearValue } = props
+  console.log(props)
+  return (
+    <form className="Form" onSubmit={handleSubmit}>
+      <div className="Form__Title">
+        Signup
+      </div>
+      <ul className="Form__Progress">
+        <li className="is-active">1</li>
+        <li className="is-active">2</li>
+        <li>3</li>
+      </ul>
+      <div className="Form__Content">
+        <FormSection
+          name="birthday"
+          className="Form__FieldGroup"
+        >
+          <Fields
+            names={[ 'day', 'month', 'year' ]}
+            component={renderBirthdaySelector}
+            monthValue={monthValue}
+            yearValue={yearValue}
+          />
+          {touched && error && <span>{error}</span>}
+        </FormSection>
+        <p className="Form__Content--group-title">
+          Gender
+        </p>
+        <div className="Form__RadioGroup">
+          <div className="Form__RadioWrapper">
+            <Field className="Form__RadioInput" name="gender" component="input" type="radio" value="male" />
+            <label className="Form__RadioBtn"> Male</label>
+          </div>
+          <div className="Form__RadioWrapper">
+            <Field className="Form__RadioInput" name="gender" component="input" type="radio" value="female" />
+            <label className="Form__RadioBtn"> Female</label>
+          </div>
+          <div className="Form__RadioWrapper">
+            <Field className="Form__RadioInput" name="gender" component="input" type="radio" value="unspecified" />
+            <label className="Form__RadioBtn"> Unspecified</label>
+          </div>
         </div>
-        <ul className="Form__Progress">
-          <li className="is-active">1</li>
-          <li className="is-active">2</li>
-          <li>3</li>
-        </ul>
-        <div className="Form__Content">
-          <p className="Form__Content--group-title">
-            Date of Birth
-          </p>
-          <Field name="birthday" component={renderError}/>
-          <div className="Form__FieldGroup">
-            <Field
-              name="birthday"
-              type="number"
-              component={renderBirthdayField}
-              label="birthday"
-            />
-          </div>
-          <div className="Form__FieldGroup">
-            <p className="Form__Content--group-title">
-              Gender
-            </p>
-            <RadioGroup
-              className="Form__RadioGroup"
-              name="gender"
-              onChange={ this.onGenderUpdate }
-            >
-              <label className={`Form__RadioBtn ${this.state.gender === 'male' ? 'is-active' : ''}`}>
-                <Radio
-                  value="male"
-                  checked={this.state.gender === 'male'}
-                />Male
-              </label>
-              <label className={`Form__RadioBtn ${this.state.gender === 'female' ? 'is-active' : ''}`}>
-                <Radio
-                  value="female"
-                  checked={this.state.gender === 'female'}
-                />Female
-              </label>
-              <label className={`Form__RadioBtn ${this.state.gender === 'unspecified' ? 'is-active' : ''}`}>
-                <Radio
-                  value="unspecified"
-                  checked={this.state.gender === 'unspecified'}
-                />Unspecified
-              </label>
-            </RadioGroup>
-          </div>
-          <div className="Form__FieldGroup">
-            <p className="Form__Content--group-title">
-              Where did you hear about us?
-            </p>
-            <Field name="where"
-              component={props =>
-                <Select
-                  className="Form__DefaultSelect"
-                  value={this.state.where}
-                  options={whereOpts}
-                  onChange={ this.onWhereUpdate.bind(this) }
-                />
+        <p className="Form__Content--group-title">
+          Where did you hear about us?
+        </p>
+        <div className="Form__FieldGroup--centered">
+          <div className="Form__SelectWrapper--full-width">
+            <select
+              name="where"
+              className={
+                cx(`Form__FieldGroupItem${touched && error ? "--error" : ""}`)
               }
-            />
+            >
+              <option value="">Select day...</option>
+              {whereOpts.map((place, i) => <option value={place.value} key={i}>{place.label}</option>)}
+            </select>
           </div>
         </div>
-        <div className="Form__Footer">
-          <button
-            className="Form__BtnPrev"
-            type="button"
-            onClick={previousPage}
-          >
-            Back
-          </button>
-          <button
-            className="Form__BtnNext"
-            type="submit"
-          >
-            Next
-            <span className="anticon icon-arrowright"></span>
-          </button>
-        </div>
-      </form>
-    ) 
-  }
+      </div>
+      <div className="Form__Footer">
+        <button
+          type="button"
+          className="Form__BtnPrev"
+          onClick={previousPage}
+        >Previous</button>
+        <button
+          className="Form__BtnNext"
+          type="submit"
+          disabled={`${props.invalid ? 'true' : ''}`}
+        >Next
+          <span className="anticon icon-arrowright"></span>
+        </button>
+      </div>
+    </form>
+  )
 }
 
-export default reduxForm({
-  form: 'signup',                 // <------ same form name
-  destroyOnUnmount: false,        // <------ preserve form data
-  forceUnregisterOnUnmount: true,  // <------ unregister fields on unmount
+// Decorate with redux-form
+RegisterSecondPage = reduxForm({
+  form: 'signup',  // a unique identifier for this form
+  destroyOnUnmount: false,
+  forceUnregisterOnUnmount: true,
   validate
 })(RegisterSecondPage)
+
+// Decorate with connect to read form values
+const selector = formValueSelector('signup') // <-- same as form name
+RegisterSecondPage = connect(
+  state => {
+    const yearValue = selector(state, 'birthday.year')
+    const monthValue = selector(state, 'birthday.month')
+    return {
+      yearValue,
+      monthValue,
+    }
+  }
+)(RegisterSecondPage)
+
+export default RegisterSecondPage;

@@ -3,6 +3,7 @@ import cx from 'classnames';
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div className="Form__FieldGroup">
+    {JSON.stringify(input)}
     <label className={
       cx(`Form__Label${touched && error ? "--error" : ""}`)
     }>
